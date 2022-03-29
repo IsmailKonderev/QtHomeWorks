@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->radioButton_2->setChecked(true);
 }
 
 MainWindow::~MainWindow()
@@ -17,35 +18,20 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    QString textRes;
+    QString resText = "";
 
-    double a = ui->lineEdit->text().toDouble();
-    double b = ui->lineEdit_2->text().toDouble();
-    double c = ui->lineEdit_3->text().toDouble();
+    double b = ui->lineEdit->text().toDouble();
+    double c = ui->lineEdit_2->text().toDouble();
+    double y = ui->lineEdit_3->text().toDouble();
 
-    double D = b*b - 4 * a * c;
+    if(ui->radioButton->isChecked())
+        y = y*M_PI/180;
 
-    if(!a){
-        textRes.setNum(c*(-1));
-        ui->lineEdit_4->setText(textRes);
-        ui->lineEdit_5->setText(textRes);
-    }
-    else if(D < 0) {
-        ui->lineEdit_4->setText("Нет корней");
-        ui->lineEdit_5->setText("Нет корней");
-    }
-    else if(!D){
-        double x = (b/(2*a)) * -1;
-        textRes.setNum(x);
-        ui->lineEdit_4->setText(textRes);
-        ui->lineEdit_5->setText(textRes);
-    }
-    else{
-        double x = ((b * -1) - sqrt(D)) / (2 * a);
-        textRes.setNum(x);
-        ui->lineEdit_4->setText(textRes);
-        x = ((b * -1) + sqrt(D)) / (2 * a);
-        textRes.setNum(x);
-        ui->lineEdit_5->setText(textRes);
-    }
+    double res = sqrt(b*b+c*c-2*b*c*cos(y));
+
+    resText.setNum(res);
+
+    ui->lineEdit_4->setText(resText);
+
 }
+
