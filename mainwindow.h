@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QStandardItemModel>
+#include <QStyleOptionViewItem>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,5 +22,12 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+
+
+    QStandardItemModel* model;
+    QList<QStandardItem*> list1;
+    QList<QStandardItem*> list2;
+    QList<QStandardItem*> list3;
+    QList<QStandardItem*> list4;
 };
 #endif // MAINWINDOW_H

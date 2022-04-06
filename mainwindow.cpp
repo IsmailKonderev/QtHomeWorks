@@ -1,12 +1,37 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QtMath>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    model = new QStandardItemModel(this);
+    ui->tableView->setModel(model);
+
+    list1.append(new QStandardItem("1"));
+    list1.append((new QStandardItem("2")));
+    list1.append((new QStandardItem("3")));
+    model->appendRow(list1);
+
+    list2.append(new QStandardItem("CLAY"));
+    list2.append((new QStandardItem("QWERTY")));
+    list2.append((new QStandardItem("BOOM")));
+    model->appendRow(list2);
+
+    list3.append(new QStandardItem("123.313.42.4"));
+    list3.append((new QStandardItem("142.124.124.1")));
+    list3.append((new QStandardItem("142.142.124.412")));
+    model->appendRow(list3);
+
+    list4.append(new QStandardItem("00:00:00:a1:2b:cc"));
+    list4.append((new QStandardItem("20:34:00:a1:2b:cc")));
+    list4.append((new QStandardItem("10:f0:00:41:2b:ca")));
+    model->appendRow(list4);
+
+
+
 }
 
 MainWindow::~MainWindow()
@@ -17,35 +42,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    QString textRes;
 
-    double a = ui->lineEdit->text().toDouble();
-    double b = ui->lineEdit_2->text().toDouble();
-    double c = ui->lineEdit_3->text().toDouble();
-
-    double D = b*b - 4 * a * c;
-
-    if(!a){
-        textRes.setNum(c*(-1));
-        ui->lineEdit_4->setText(textRes);
-        ui->lineEdit_5->setText(textRes);
-    }
-    else if(D < 0) {
-        ui->lineEdit_4->setText("Нет корней");
-        ui->lineEdit_5->setText("Нет корней");
-    }
-    else if(!D){
-        double x = (b/(2*a)) * -1;
-        textRes.setNum(x);
-        ui->lineEdit_4->setText(textRes);
-        ui->lineEdit_5->setText(textRes);
-    }
-    else{
-        double x = ((b * -1) - sqrt(D)) / (2 * a);
-        textRes.setNum(x);
-        ui->lineEdit_4->setText(textRes);
-        x = ((b * -1) + sqrt(D)) / (2 * a);
-        textRes.setNum(x);
-        ui->lineEdit_5->setText(textRes);
-    }
 }
+
