@@ -2,6 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QStandardItemModel>
+#include <QString>
+#include <QStringListModel>
+#include <QStandardItem>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -18,7 +22,17 @@ public:
 private slots:
     void on_pushButton_clicked();
 
+    void on_pushButton_2_clicked();
+
+    void on_checkBox_clicked();
+
 private:
     Ui::MainWindow *ui;
+    QStandardItemModel *model;
+    QStringListModel *strModel;
+
+    QList<QPair<QString,QString>> list;
+    QStringList strList;
+
 };
 #endif // MAINWINDOW_H

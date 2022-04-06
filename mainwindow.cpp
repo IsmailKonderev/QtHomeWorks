@@ -1,12 +1,30 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QtMath>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    model = new QStandardItemModel(this);
+    ui->listView->setModel(model);
+
+    strModel = new QStringListModel(this);
+
+    list = {{"C++","C++.png"},
+            {"Python","Python.png"},
+            {"Java","Java.png"},
+            {"C#","CSh.png"},
+            {"PHP","PHP.png"},
+            {"JavaScript","JavaScript.png"}
+           };
+
+    for(auto it: list){
+        model->appendRow(new QStandardItem(QIcon(it.second),it.first));
+        strList.push_back(it.first);
+    }
+    strModel->setStringList(strList);
 }
 
 MainWindow::~MainWindow()
@@ -17,35 +35,48 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    QString textRes;
 
-    double a = ui->lineEdit->text().toDouble();
-    double b = ui->lineEdit_2->text().toDouble();
-    double c = ui->lineEdit_3->text().toDouble();
+    if(!ui->lineEdit->text().isEmpty()){
 
-    double D = b*b - 4 * a * c;
+        QString text = ui->lineEdit->text();
 
-    if(!a){
-        textRes.setNum(c*(-1));
-        ui->lineEdit_4->setText(textRes);
-        ui->lineEdit_5->setText(textRes);
-    }
-    else if(D < 0) {
-        ui->lineEdit_4->setText("Нет корней");
-        ui->lineEdit_5->setText("Нет корней");
-    }
-    else if(!D){
-        double x = (b/(2*a)) * -1;
-        textRes.setNum(x);
-        ui->lineEdit_4->setText(textRes);
-        ui->lineEdit_5->setText(textRes);
-    }
-    else{
-        double x = ((b * -1) - sqrt(D)) / (2 * a);
-        textRes.setNum(x);
-        ui->lineEdit_4->setText(textRes);
-        x = ((b * -1) + sqrt(D)) / (2 * a);
-        textRes.setNum(x);
-        ui->lineEdit_5->setText(textRes);
+        list.push_back({text,"0"});
+
+        strList.push_back(text);
+        strModel->setStringList(strList);
+
+        ui->lineEdit->clear();
+        model->clear();
+
+        for(auto it: list)
+            if(it.second != "0")
+                model->appendRow(new QStandardItem(QIcon(it.second),it.first));
+            else
+                model->appendRow(new QStandardItem(QIcon(QApplication::style()->standardIcon(QStyle::SP_FileIcon)),it.first));
+
     }
 }
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    if(!list.isEmpty()){
+
+        list.erase(list.begin()+ui->listView->currentIndex().row());
+        strList.erase(strList.begin()+ui->listView->currentIndex().row());
+        strModel->setStringList(strList);
+
+        model->clear();
+
+        for(auto it: list)
+            model->appendRow(new QStandardItem(QIcon(it.second),it.first));
+    }
+}
+
+void MainWindow::on_checkBox_clicked()
+{
+    if(ui->checkBox->checkState())
+        ui->listView->setModel(strModel);
+    else
+        ui->listView->setModel(model);
+}
+
